@@ -1,0 +1,50 @@
+databases:
+  - name: rx-cw-postgres
+    databaseName: chatwoot
+    user: chatwoot
+    plan: free
+    postgresMajorVersion: 16
+
+services:
+  - name: rx-cw-web
+    type: web
+    runtime: ruby
+    plan: free
+    repo: https://github.com/chatwoot/chatwoot.git
+    branch: develop
+    healthCheckPath: /
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: NODE_ENV
+        value: production
+      - key: SECRET_KEY_BASE
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: rx-cw-postgres
+          property: connectionString
+      - key: REDIS_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+
+  - name: rx-cw-worker
+    type: worker
+    runtime: ruby
+    plan: free
+    repo: https://github.com/chatwoot/chatwoot.git
+    branch: develop
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: NODE_ENV
+        value: production
+      - key: SECRET_KEY_BASE
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: rx-cw-postgres
+          property: connectionString
+      - key: REDIS_URL
+        sync: false
