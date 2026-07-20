@@ -8,10 +8,11 @@ databases:
 services:
   - name: rx-cw-web
     type: web
-    runtime: ruby
+    runtime: docker
     plan: free
     repo: https://github.com/shadi-crypto/rx-chatwoot.git
     branch: main
+    dockerfilePath: ./docker/Dockerfile
     healthCheckPath: /
     envVars:
       - key: RAILS_ENV
@@ -31,10 +32,11 @@ services:
 
   - name: rx-cw-worker
     type: worker
-    runtime: ruby
+    runtime: docker
     plan: free
     repo: https://github.com/shadi-crypto/rx-chatwoot.git
     branch: main
+    dockerfilePath: ./docker/Dockerfile
     envVars:
       - key: RAILS_ENV
         value: production
