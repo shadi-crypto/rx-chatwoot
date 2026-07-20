@@ -12,9 +12,8 @@ services:
     plan: free
     repo: https://github.com/shadi-crypto/rx-chatwoot.git
     branch: main
-    dockerfilePath: ./docker/Dockerfile
+    dockerfilePath: ./docker/render.Dockerfile
     healthCheckPath: /
-    startCommand: bash -c "bundle exec sidekiq -C config/sidekiq.yml & POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare && exec bin/rails server -p $PORT -e $RAILS_ENV"
     envVars:
       - key: RAILS_ENV
         value: production
